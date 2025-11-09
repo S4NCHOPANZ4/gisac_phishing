@@ -53,7 +53,7 @@ client.on('messageCreate', async (message) => {
                 new ButtonBuilder()
                     .setLabel("🔐 Verificar Ahora")
                     .setStyle(ButtonStyle.Link)
-                    .setURL("http://localhost:5173")
+                    .setURL("https://gisac-phishing.vercel.app/")
             );
 
         try {
